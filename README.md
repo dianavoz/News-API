@@ -4,7 +4,7 @@
 
 <ul>
 <li>Run npm install</li>
-<li>add two files .env.development and .env.test in the root to connect to the database.The file should have the name of the database: </li>
+<li>Add two files .env.development and .env.test in the root to connect to the database.The files should have the name of the database: </li>
 
 
 ```
