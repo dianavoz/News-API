@@ -1,6 +1,6 @@
 # Northcoders News API
 
-## Set Up
+## Set-up
 
 
 <p>Create two <strong>.env</strong> files locally in order to access the database</p>
