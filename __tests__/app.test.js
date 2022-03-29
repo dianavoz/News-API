@@ -105,7 +105,7 @@ describe("Articles", () => {
           expect(body.article).toMatchObject(expected);
         });
     });
-    test("200: decrements the current article's vote property by 100 ", () => {
+    test("200: decrements the current article's vote property by the given number ", () => {
       const articleUpdates = {
         inc_votes: -100,
       };
