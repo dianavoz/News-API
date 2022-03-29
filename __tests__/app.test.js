@@ -33,7 +33,7 @@ describe("GET /api/topics", () => {
   });
   test("404: responds with a message path not found", () => {
     return request(app)
-      .patch("/api/notFound")
+      .get("/api/notFound")
       .expect(404)
       .then((res) => {
         expect(res.body).toMatchObject({ message: "Path not found" });
@@ -64,7 +64,17 @@ describe("GET /api/articles/:article_id", () => {
       .get(`/api/articles/999999`)
       .expect(404)
       .then((result) => {
-        expect(result.body).toMatchObject({ msg: "Not Found!" });
+        expect(result.body).toMatchObject({
+          msg: "No user found for user_id: 999999",
+        });
+      });
+  });
+  test("400, responds with an error message when passed a bad user ID", () => {
+    return request(app)
+      .get(`/api/articles/notAnId`)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid input");
       });
   });
 });
