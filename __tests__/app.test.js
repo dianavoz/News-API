@@ -47,8 +47,8 @@ describe("GET /api/articles/:article_id", () => {
       .get(`/api/articles/${article}`)
       .expect(200)
       .then(({ body }) => {
-        expect(body.articles).toBeInstanceOf(Object);
-        expect(body.articles).toMatchObject({
+        expect(body.article).toBeInstanceOf(Object);
+        expect(body.article).toMatchObject({
           article_id: article,
           title: "Living in the shadow of a great man",
           topic: "mitch",
