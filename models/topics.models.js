@@ -11,7 +11,10 @@ exports.selectArticleById = (article_id) => {
     .query("SELECT * FROM articles WHERE article_id = $1;", [article_id])
     .then((article) => {
       if (article.rows.length === 0) {
-        return Promise.reject({ status: 404, msg: "Not Found!" });
+        return Promise.reject({
+          status: 404,
+          msg: `No user found for user_id: ${article_id}`,
+        });
       }
       return article.rows[0];
     });
