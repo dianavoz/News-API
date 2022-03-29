@@ -31,6 +31,8 @@ describe("GET /api/topics", () => {
         });
       });
   });
+});
+describe("404, responds with an error when the path is not found", () => {
   test("404: responds with a message path not found", () => {
     return request(app)
       .get("/api/notFound")
@@ -59,7 +61,7 @@ describe("GET /api/articles/:article_id", () => {
         });
       });
   });
-  test("404 article not found", () => {
+  test("404, responds with an error when the article is not found", () => {
     return request(app)
       .get(`/api/articles/999999`)
       .expect(404)
