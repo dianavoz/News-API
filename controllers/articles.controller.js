@@ -3,20 +3,25 @@ const {
   updateArticle,
 } = require("../models/ articles.model");
 
-exports.getArticleById = (req, res, next) => {
-  const { article_id } = req.params;
-  fetchArticleById(article_id)
-    .then((article) => {
-      res.status(200).send({ article: article });
-    })
-    .catch(next);
+exports.getArticleById = async (req, res, next) => {
+  try {
+    const { article_id } = req.params;
+    const article = await fetchArticleById(article_id);
+
+    res.status(200).send({ article: article });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.patchArticle = (req, res, next) => {
-  const { article_id } = req.params;
-  updateArticle(article_id, req.body)
-    .then((article) => {
-      res.status(200).send({ article });
-    })
-    .catch(next);
+exports.patchArticle = async (req, res, next) => {
+  try {
+    const { article_id } = req.params;
+
+    const article = await updateArticle(article_id, req.body);
+
+    res.status(200).send({ article });
+  } catch (err) {
+    next(err);
+  }
 };

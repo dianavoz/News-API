@@ -12,79 +12,72 @@ afterAll(() => {
 beforeEach(() => {
   return seed(testData);
 });
+
 describe("Topics", () => {
   describe("GET /api/topics", () => {
-    test("200: responds with an an array of topic objects with slug and description properties", () => {
-      return request(app)
-        .get("/api/topics")
-        .expect(200)
-        .then(({ body }) => {
-          const { topics } = body;
-          expect(topics).toBeInstanceOf(Array);
-          expect(topics).toHaveLength(3);
+    test("200: responds with an an array of topic objects with slug and description properties", async () => {
+      const { body } = await request(app).get("/api/topics").expect(200);
 
-          topics.forEach((topic) => {
-            expect(topic).toMatchObject({
-              slug: expect.any(String),
-              description: expect.any(String),
-            });
-          });
+      const { topics } = body;
+      expect(topics).toBeInstanceOf(Array);
+      expect(topics).toHaveLength(3);
+
+      topics.forEach((topic) => {
+        expect(topic).toMatchObject({
+          slug: expect.any(String),
+          description: expect.any(String),
         });
+      });
     });
   });
 });
+
 describe("404, responds with an error when the path is not found", () => {
-  test("404: responds with a message path not found", () => {
-    return request(app)
-      .get("/api/notFound")
-      .expect(404)
-      .then((res) => {
-        expect(res.body).toMatchObject({ message: "Path not found" });
-      });
+  test("404: responds with a message path not found", async () => {
+    const { body } = await request(app).get("/api/notFound").expect(404);
+    expect(body).toMatchObject({ message: "Path not found" });
   });
 });
 
 describe("Articles", () => {
   describe("GET /api/articles/:article_id", () => {
-    test("200: responds with an article object", () => {
+    test("200: responds with an article object", async () => {
       const article = 1;
-      return request(app)
+
+      const { body } = await request(app)
         .get(`/api/articles/${article}`)
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.article).toBeInstanceOf(Object);
-          expect(body.article).toMatchObject({
-            article_id: article,
-            title: "Living in the shadow of a great man",
-            topic: "mitch",
-            author: "butter_bridge",
-            body: "I find this existence challenging",
-            created_at: "2020-07-09T20:11:00.000Z",
-            votes: 100,
-          });
-        });
+        .expect(200);
+
+      expect(body.article).toBeInstanceOf(Object);
+      expect(body.article).toMatchObject({
+        article_id: article,
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        body: "I find this existence challenging",
+        created_at: "2020-07-09T20:11:00.000Z",
+        votes: 100,
+      });
     });
-    test("404, responds with an error when the article is not found", () => {
-      return request(app)
+    test("404, responds with an error when the article is not found", async () => {
+      const { body } = await request(app)
         .get(`/api/articles/999999`)
-        .expect(404)
-        .then((result) => {
-          expect(result.body).toMatchObject({
-            msg: "No article found for article_id: 999999",
-          });
-        });
+        .expect(404);
+
+      expect(body).toMatchObject({
+        msg: "No article found for article_id: 999999",
+      });
     });
-    test("400, responds with an error message when passed a bad article id", () => {
-      return request(app)
+    test("400, responds with an error message when passed a bad article id", async () => {
+      const { body } = await request(app)
         .get(`/api/articles/notAnId`)
-        .expect(400)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Invalid input");
-        });
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid input");
     });
   });
   describe("PATCH /api/articles/:article_id", () => {
-    test("200, responds with the updated article", () => {
+    test("200, responds with the updated article", async () => {
       const articleUpdates = {
         inc_votes: 1,
       };
@@ -97,15 +90,15 @@ describe("Articles", () => {
         created_at: "2020-07-09T20:11:00.000Z",
         votes: 101,
       };
-      return request(app)
+
+      const { body } = await request(app)
         .patch("/api/articles/1")
         .send(articleUpdates)
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.article).toMatchObject(expected);
-        });
+        .expect(200);
+
+      expect(body.article).toMatchObject(expected);
     });
-    test("200: decrements the current article's vote property by the given number ", () => {
+    test("200: decrements the current article's vote property by the given number ", async () => {
       const articleUpdates = {
         inc_votes: -100,
       };
@@ -118,26 +111,40 @@ describe("Articles", () => {
         created_at: "2020-07-09T20:11:00.000Z",
         votes: 0,
       };
-      return request(app)
+      const { body } = await request(app)
         .patch("/api/articles/1")
         .send(articleUpdates)
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.article).toMatchObject(expected);
-        });
+        .expect(200);
+
+      expect(body.article).toMatchObject(expected);
     });
-    test("400: responds with a bad request error", () => {
+    test("400: responds with a bad request error", async () => {
       const articleUpdates = {
         inc_votes: "er3t",
       };
 
-      return request(app)
+      const { body } = await request(app)
         .patch("/api/articles/1")
         .send(articleUpdates)
-        .expect(400)
-        .then(({ body }) => {
-          expect(body).toEqual({ msg: "Invalid input" });
-        });
+        .expect(400);
+      expect(body).toEqual({ msg: "Invalid input" });
+    });
+  });
+});
+
+describe("Users", () => {
+  describe("GET /api/users", () => {
+    test("200:responds with array of objects", async () => {
+      const expected = {
+        username: expect.any(String),
+      };
+      const { body } = await request(app).get("/api/users").expect(200);
+      const { users } = body;
+      expect(users).toBeInstanceOf(Array);
+      expect(users.length).toBe(4);
+      users.forEach((user) => {
+        expect(user).toMatchObject(expected);
+      });
     });
   });
 });
