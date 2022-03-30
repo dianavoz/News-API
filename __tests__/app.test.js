@@ -148,3 +148,28 @@ describe("Users", () => {
     });
   });
 });
+describe("Comments", () => {
+  describe("GET /api/articles/:article_id/comments ", () => {
+    test("200: responds with an object with the total count of all the comment with this article id", async () => {
+      const { body } = await request(app)
+        .get("/api/articles/5/comments")
+        .expect(200);
+      body.comments.forEach((comment) => {
+        expect(comment).toMatchObject({
+          comment_id: expect.any(Number),
+          body: expect.any(String),
+          article_id: expect.any(Number),
+          author: expect.any(String),
+          votes: expect.any(Number),
+          created_at: expect.any(String),
+        });
+      });
+    });
+    test("200: responds with an empty array if the article exists but has no comments", async () => {
+      const { body } = await request(app)
+        .get("/api/articles/7/comments")
+        .expect(200);
+      expect(body.comments).toEqual([]);
+    });
+  });
+});
