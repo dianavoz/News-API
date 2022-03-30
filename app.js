@@ -6,6 +6,7 @@ const errorHandlers = require("./errors/handlers.js");
 
 const { getTopics } = require("./controllers/topics.controller");
 const { getUsers } = require("./controllers/users.controller");
+const { getCommentsByArticle } = require("./controllers/comments.controller");
 
 const {
   getArticleById,
@@ -16,6 +17,7 @@ app.get("/api/topics", getTopics);
 app.get("/api/users", getUsers);
 app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticle);
+app.get("/api/articles/:article_id/comments", getCommentsByArticle);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ message: "Path not found" });
