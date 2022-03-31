@@ -190,18 +190,18 @@ describe("Users", () => {
 });
 describe("Comments", () => {
   describe("GET /api/articles/:article_id/comments ", () => {
-    test("200: responds with an object with the total count of all the comment with this article id", async () => {
+    test("200: responds with an an array of comments for the given article_id", async () => {
       const { body } = await request(app)
         .get("/api/articles/5/comments")
         .expect(200);
+      expect(body.comments).toBeInstanceOf(Array);
       body.comments.forEach((comment) => {
         expect(comment).toMatchObject({
           comment_id: expect.any(Number),
-          body: expect.any(String),
-          article_id: expect.any(Number),
-          author: expect.any(String),
           votes: expect.any(Number),
           created_at: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
         });
       });
     });
@@ -210,6 +210,22 @@ describe("Comments", () => {
         .get("/api/articles/7/comments")
         .expect(200);
       expect(body.comments).toEqual([]);
+    });
+    test("404, responds with an error when the article is not found", async () => {
+      const { body } = await request(app)
+        .get(`/api/articles/999999/comments`)
+        .expect(404);
+
+      expect(body).toMatchObject({
+        msg: "No article found for article_id: 999999",
+      });
+    });
+    test("400, responds with an error message when article_id is not an integer", async () => {
+      const { body } = await request(app)
+        .get(`/api/articles/notAnId/comments`)
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid input");
     });
   });
 });
