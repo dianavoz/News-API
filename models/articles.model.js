@@ -3,7 +3,7 @@ const db = require("../db/connection");
 exports.fetchArticleById = async (article_id) => {
   const sql = `
     SELECT articles.*,
-    COUNT(comments.body) AS comment_count 
+    COUNT(comments.body)::int AS comment_count 
     FROM articles 
    
     LEFT JOIN comments ON comments.article_id = articles.article_id
@@ -40,7 +40,7 @@ exports.updateArticle = async (article_id, newVotes) => {
 exports.fetchArticles = async (sort_by = `created_at`) => {
   const sql = `
   SELECT name AS author,
-   COUNT(comments.body) AS comment_count,
+   COUNT(comments.body)::int AS comment_count,
    articles.title,
    articles.article_id,
    topic,articles.created_at,
