@@ -190,18 +190,18 @@ describe("Users", () => {
 });
 describe("Comments", () => {
   describe("GET /api/articles/:article_id/comments ", () => {
-    test("200: responds with an object with the total count of all the comment with this article id", async () => {
+    test("200: responds with an an array of comments for the given article_id", async () => {
       const { body } = await request(app)
         .get("/api/articles/5/comments")
         .expect(200);
+      expect(body.comments).toBeInstanceOf(Array);
       body.comments.forEach((comment) => {
         expect(comment).toMatchObject({
           comment_id: expect.any(Number),
-          body: expect.any(String),
-          article_id: expect.any(Number),
-          author: expect.any(String),
           votes: expect.any(Number),
           created_at: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
         });
       });
     });
