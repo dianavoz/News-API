@@ -2,7 +2,7 @@ const {
   fetchArticleById,
   updateArticle,
   fetchArticles,
-} = require("../models/ articles.model");
+} = require("../models/articles.model");
 
 exports.getArticleById = async (req, res, next) => {
   try {
