@@ -8,7 +8,7 @@ exports.fetchArticleById = async (article_id) => {
    
     LEFT JOIN comments ON comments.article_id = articles.article_id
     WHERE articles.article_id = $1
-    GROUP BY articles.article_id, articles.*;`;
+    GROUP BY articles.article_id;`;
 
   const article = await db.query(sql, [article_id]);
 
