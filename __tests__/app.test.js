@@ -76,6 +76,21 @@ describe("Articles", () => {
       expect(body.msg).toBe("Invalid input");
     });
   });
+  describe("GET /api/articles/:article_id (comment count)", () => {
+    test("200: responds with the number of comments for the given article", async () => {
+      const { body } = await request(app).get("/api/articles/1").expect(200);
+      expect(body.article).toEqual({
+        article_id: 1,
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        created_at: "2020-07-09T20:11:00.000Z",
+        body: "I find this existence challenging",
+        votes: 100,
+        comment_count: 11,
+      });
+    });
+  });
   describe("PATCH /api/articles/:article_id", () => {
     test("200, responds with the updated article", async () => {
       const articleUpdates = {
@@ -141,7 +156,7 @@ describe("Articles", () => {
         topic: expect.any(String),
         created_at: expect.any(String),
         votes: expect.any(Number),
-        comment_count: expect.any(String),
+        comment_count: expect.any(Number),
       };
       expect(articles).toBeInstanceOf(Array);
       articles.forEach((article) => {
