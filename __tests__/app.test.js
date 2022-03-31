@@ -211,5 +211,21 @@ describe("Comments", () => {
         .expect(200);
       expect(body.comments).toEqual([]);
     });
+    test("404, responds with an error when the article is not found", async () => {
+      const { body } = await request(app)
+        .get(`/api/articles/999999/comments`)
+        .expect(404);
+
+      expect(body).toMatchObject({
+        msg: "No article found for article_id: 999999",
+      });
+    });
+    test("400, responds with an error message when article_id is not an integer", async () => {
+      const { body } = await request(app)
+        .get(`/api/articles/notAnId/comments`)
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid input");
+    });
   });
 });
