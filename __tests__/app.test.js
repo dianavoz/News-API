@@ -130,6 +130,46 @@ describe("Articles", () => {
       expect(body).toEqual({ msg: "Invalid input" });
     });
   });
+  describe("GET /api/articles", () => {
+    test("200: responds with array of article objects", async () => {
+      const { body } = await request(app).get("/api/articles").expect(200);
+      const { articles } = body;
+      const expected = {
+        author: expect.any(String),
+        title: expect.any(String),
+        article_id: expect.any(Number),
+        topic: expect.any(String),
+        created_at: expect.any(String),
+        votes: expect.any(Number),
+        comment_count: expect.any(String),
+      };
+      expect(articles).toBeInstanceOf(Array);
+      articles.forEach((article) => {
+        expect(article).toMatchObject(expected);
+      });
+    });
+    test("200: articles are ordered by date by default", async () => {
+      const { body } = await request(app).get("/api/articles").expect(200);
+      const { articles } = body;
+
+      expect(articles).toBeSorted("created_at", { descending: true });
+    });
+    test("200: articles are ordered by a passed sort_by query", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?sort_by=title")
+        .expect(200);
+      const { articles } = body;
+
+      expect(articles).toBeSorted("title", { descending: true });
+    });
+    test("400: for an invalid sort_by", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?sort_by=not_a_column")
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid sort_by");
+    });
+  });
 });
 
 describe("Users", () => {

@@ -1,5 +1,5 @@
-const { fetchCommentsByArticle } = require("../models/ comments.model");
-const { fetchArticleById } = require("../models/ articles.model");
+const { fetchCommentsByArticle } = require("../models/comments.model");
+const { fetchArticleById } = require("../models/articles.model");
 
 exports.getCommentsByArticle = async (req, res, next) => {
   try {

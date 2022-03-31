@@ -1,7 +1,8 @@
 const {
   fetchArticleById,
   updateArticle,
-} = require("../models/ articles.model");
+  fetchArticles,
+} = require("../models/articles.model");
 
 exports.getArticleById = async (req, res, next) => {
   try {
@@ -21,6 +22,18 @@ exports.patchArticle = async (req, res, next) => {
     const article = await updateArticle(article_id, req.body);
 
     res.status(200).send({ article });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getArticles = async (req, res, next) => {
+  try {
+    const { sort_by } = req.query;
+
+    const articles = await fetchArticles(sort_by);
+
+    res.status(200).send({ articles });
   } catch (err) {
     next(err);
   }
