@@ -262,7 +262,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       author: "butter_bridge",
       body: "The beautiful thing about treasure is that it exists.",
       article_id: 2,
-      votes: expect.any(Number),
+      votes: 0,
       created_at: expect.any(String),
     };
 
