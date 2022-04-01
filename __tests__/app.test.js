@@ -237,7 +237,7 @@ describe("Comments", () => {
     });
     test("400, responds with an error message when article_id is not an integer", async () => {
       const { body } = await request(app)
-        .get(`/api/articles/notAnId/comments`)
+        .get("/api/articles/notAnId/comments")
         .expect(400);
 
       expect(body.msg).toBe("Invalid input");
@@ -268,18 +268,39 @@ describe("POST /api/articles/:article_id/comments", () => {
 
     expect(body.comment).toMatchObject(expected);
   });
-  test("200: returns an empty array if the comment is not entered", async () => {
+
+  test("400: returns an error with the a message", async () => {
     const { body } = await request(app)
-      .get(`/api/articles/2/comments`)
-      .expect(200)
-      .send({});
-    expect(body.comments).toEqual([]);
+      .post("/api/articles/2/comments")
+      .send({ username: "butter_bridge", body: "" })
+      .expect(400);
+
+    expect(body.msg).toBe("Please enter the comment");
   });
   test("400, responds with an error message when article_id is not an integer", async () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "The beautiful thing about treasure is that it exists.",
+    };
     const { body } = await request(app)
-      .get(`/api/articles/notAnId/comments`)
+      .post("/api/articles/notAnId/comments")
+      .send(newComment)
       .expect(400);
 
     expect(body.msg).toBe("Invalid input");
+  });
+  test("404, responds with an error when the article is not found", async () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "The beautiful thing about treasure is that it exists.",
+    };
+    const { body } = await request(app)
+      .post("/api/articles/999999/comments")
+      .send(newComment)
+      .expect(404);
+
+    expect(body).toEqual({
+      msg: "No article found for article_id: 999999",
+    });
   });
 });
