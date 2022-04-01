@@ -22,10 +22,14 @@ exports.getCommentsByArticle = async (req, res, next) => {
 exports.postComment = async (req, res, next) => {
   try {
     const { article_id } = req.params;
+    const { username, body } = req.body;
 
-    const comment = await sendComment(article_id, req.body);
+    const result = await Promise.all([
+      await fetchArticleById(article_id),
+      await sendComment(article_id, username, body),
+    ]);
 
-    res.status(201).send({ comment });
+    res.status(201).send({ comment: result[1] });
   } catch (err) {
     next(err);
   }
