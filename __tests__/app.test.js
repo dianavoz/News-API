@@ -244,3 +244,42 @@ describe("Comments", () => {
     });
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201: posts a comment and returns the newly added comment", async () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "The beautiful thing about treasure is that it exists.",
+    };
+
+    const { body } = await request(app)
+      .post(`/api.articles/2/comments`)
+      .send(newComment)
+      .expect(201);
+
+    const expected = {
+      comment_id: expect.any(Number),
+      author: "butter_bridge",
+      body: "The beautiful thing about treasure is that it exists.",
+      article_id: 2,
+      votes: expect.any(Number),
+      created_at: expect.any(String),
+    };
+
+    expect(body.comment).toMatchObject(expected);
+  });
+  test("200: returns an empty array if the comment is not entered", async () => {
+    const { body } = await request(app)
+      .get(`/api/articles/2/comments`)
+      .expect(200)
+      .send({});
+    expect(body.comments).toEqual([]);
+  });
+  test("400, responds with an error message when article_id is not an integer", async () => {
+    const { body } = await request(app)
+      .get(`/api/articles/notAnId/comments`)
+      .expect(400);
+
+    expect(body.msg).toBe("Invalid input");
+  });
+});
