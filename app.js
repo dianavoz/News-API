@@ -23,7 +23,7 @@ app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticle);
 app.get("/api/articles/:article_id/comments", getCommentsByArticle);
-app.post("/api.articles/:article_id/comments", postComment);
+app.post("/api/articles/:article_id/comments", postComment);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ message: "Path not found" });

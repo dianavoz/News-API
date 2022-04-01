@@ -253,7 +253,7 @@ describe("POST /api/articles/:article_id/comments", () => {
     };
 
     const { body } = await request(app)
-      .post(`/api.articles/2/comments`)
+      .post("/api/articles/2/comments")
       .send(newComment)
       .expect(201);
 
@@ -268,18 +268,18 @@ describe("POST /api/articles/:article_id/comments", () => {
 
     expect(body.comment).toMatchObject(expected);
   });
-  test("200: returns an empty array if the comment is not entered", async () => {
-    const { body } = await request(app)
-      .get(`/api/articles/2/comments`)
-      .expect(200)
-      .send({});
-    expect(body.comments).toEqual([]);
-  });
-  test("400, responds with an error message when article_id is not an integer", async () => {
-    const { body } = await request(app)
-      .get(`/api/articles/notAnId/comments`)
-      .expect(400);
+  // test("200: returns an empty array if the comment is not entered", async () => {
+  //   const { body } = await request(app)
+  //     .get(`/api/articles/2/comments`)
+  //     .expect(200)
+  //     .send({});
+  //   expect(body.comments).toEqual([]);
+  // });
+  // test("400, responds with an error message when article_id is not an integer", async () => {
+  //   const { body } = await request(app)
+  //     .get(`/api/articles/notAnId/comments`)
+  //     .expect(400);
 
-    expect(body.msg).toBe("Invalid input");
-  });
+  //   expect(body.msg).toBe("Invalid input");
+  // });
 });
