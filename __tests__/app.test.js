@@ -177,12 +177,49 @@ describe("Articles", () => {
 
       expect(articles).toBeSorted("title", { descending: true });
     });
+    test("200: articles are ordered by DESC by default", async () => {
+      const { body } = await request(app).get("/api/articles").expect(200);
+      const { articles } = body;
+
+      expect(articles).toBeSorted("title", { descending: true });
+    });
+    test("200: articles are ordered in the ascending order when passing asc", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?order=asc")
+        .expect(200);
+      const { articles } = body;
+
+      expect(articles).toBeSorted("title", { ascending: true });
+    });
+    test("200: articles are filtered by the topic value specified in the query", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?order=desc&sort_by=title&topic=cats")
+        .expect(200);
+      const { articles } = body;
+
+      expect(articles).toBeSortedBy("topic");
+    });
+
     test("400: for an invalid sort_by", async () => {
       const { body } = await request(app)
         .get("/api/articles?sort_by=not_a_column")
         .expect(400);
 
       expect(body.msg).toBe("Invalid sort_by");
+    });
+    test("400: for an invalid order", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?order=not_a_column")
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid order");
+    });
+    test("404: responds with a error when the topic is not found ", async () => {
+      const { body } = await request(app)
+        .get("/api/articles?order=desc&sort_by=title&topic=noTopic")
+        .expect(404);
+
+      expect(body.msg).toBe("Topic doesn't exist");
     });
   });
 });
