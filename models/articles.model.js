@@ -45,6 +45,22 @@ exports.fetchArticles = async (
   sort_by = sort_by.toLowerCase();
   order = order.toUpperCase();
 
+  const validColumns = [
+    "title",
+    "article_id",
+    "topic",
+    "votes",
+    "created_at",
+    "comment_count",
+  ];
+  if (!validColumns.includes(sort_by)) {
+    return Promise.reject({ status: 400, msg: "Invalid sort_by" });
+  }
+
+  if (!["DESC", "ASC"].includes(order)) {
+    return Promise.reject({ status: 400, msg: "Invalid order" });
+  }
+
   let queryValues = [];
 
   let queryStr = `
@@ -66,26 +82,6 @@ exports.fetchArticles = async (
 
   queryStr += `GROUP BY articles.article_id,name
    ORDER BY ${sort_by} ${order};`;
-
-  const validColumns = [
-    "title",
-    "article_id",
-    "topic",
-    "votes",
-    "created_at",
-    "comment_count",
-  ];
-  if (!validColumns.includes(sort_by)) {
-    return Promise.reject({ status: 400, msg: "Invalid sort_by" });
-  }
-
-  if (!["DESC", "ASC"].includes(order)) {
-    return Promise.reject({ status: 400, msg: "Invalid order" });
-  }
-
-  if (!["DESC", "ASC"].includes(order)) {
-    return Promise.reject({ status: 400, msg: "Invalid order" });
-  }
 
   const articles = await db.query(queryStr, queryValues);
 
