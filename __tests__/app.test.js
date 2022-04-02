@@ -340,4 +340,26 @@ describe("POST /api/articles/:article_id/comments", () => {
       msg: "No article found for article_id: 999999",
     });
   });
+  describe("DELETE /api/comments/:comment_id", () => {
+    test("204, responds with status 204 and no content", async () => {
+      const { body } = await request(app).delete("/api/comments/1").expect(204);
+      expect(body).toEqual({});
+      const comments = await db.query("SELECT * FROM comments");
+      expect(comments.rows.length).toBe(17);
+    });
+    test("400: responds with an error when the comment_id is invalid", async () => {
+      const { body } = await request(app)
+        .delete("/api/comments/ai94")
+        .expect(400);
+
+      expect(body.msg).toBe("Invalid input");
+    });
+    test("404: returns an error if the comment is not found", async () => {
+      const { body } = await request(app)
+        .delete("/api/comments/99")
+        .expect(404);
+
+      expect(body.msg).toBe("Comment 99 does not exist!");
+    });
+  });
 });
