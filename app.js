@@ -9,6 +9,7 @@ const { getUsers } = require("./controllers/users.controller");
 const {
   getCommentsByArticle,
   postComment,
+  deleteComment,
 } = require("./controllers/comments.controller");
 
 const {
@@ -24,6 +25,7 @@ app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticle);
 app.get("/api/articles/:article_id/comments", getCommentsByArticle);
 app.post("/api/articles/:article_id/comments", postComment);
+app.delete("/api/comments/:comment_id", deleteComment);
 
 app.all("/*", (req, res) => {
   res.status(404).send({ message: "Path not found" });
