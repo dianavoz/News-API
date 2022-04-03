@@ -4,8 +4,7 @@
 https://backend-project-news-api.herokuapp.com/api
 
 <p>The purpose of this API is to access application data programmatically.
-The intention is to mimic the building of a real world backend service which should provide this information to the front end architecture.
-Your database will be PSQL, and you will interact with it using node-postgres.</p>
+The intention is to mimic the building of a real world backend service which should provide this information to the front end architecture.</p>
 <p>The users are able to sort, filter the articles based on topics, order by ASC or DESC, comment and vote on them.</p>
     
   <ul>
@@ -66,17 +65,10 @@ npm install
 
  ** You can make requests to the endpoints in the browser or in the applications such as Postman, Insomnia.
 
-  ### Recommended Version Requirements For Node & Postgres
-
-  <p>This app was made on Node Version:</p>
+  ### Node & Postgres used in this project
 
   ```
   node -v | v17.5.0
-  ```
-
-  <p>Postgres Version:</p>
-
-  ```
   psql -V | 12.9
   ```
 
