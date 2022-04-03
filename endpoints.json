@@ -9,9 +9,24 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+          { "username": "butter_bridge" },
+          { "username": "icellusedkars" },
+          { "username": "rogersop" },
+          { "username": "lurker" }
+      ]
+    }
+  },
   "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": "serves an array of all articles",
+    "queries": [
+      "sort_by= [created_at, article_id, title, topic, author, votes or comment_count]", "order= [ASC, DESC]",
+      "topic"],
+      
     "exampleResponse": {
       "articles": [
         {
@@ -22,6 +37,85 @@
           "created_at": 1527695953341
         }
       ]
+    }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article object from an article_id",
+    "queries": ["article_id"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Living in the shadow of a great man",
+          "topic": "mitch",
+          "author": "butter_bridge",
+          "body": "I find this existence challenging",
+          "created_at": "2020-07-09T20:11:00.000Z",
+          "votes": 100,
+          "comment_count": 11  
+      }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "updates the votes in an article",
+    "queries": ["article_id"],
+    "request-body": { "inc_votes": 1 },
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Living in the shadow of a great man",
+          "topic": "mitch",
+          "author": "butter_bridge",
+          "body": "I find this existence challenging",
+          "created_at": 17627563562,
+          "votes": "101"
+      }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of comments on the article_id ",
+    "queries": ["article_id"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "comment_id": 10,
+          "body": "git push origin master",
+          "article_id": 3,
+          "author": "icellusedkars",
+          "votes": 0,
+          "created_at": 12653472732
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "adds a new comment to the article based on article_id",
+    "queries": ["article_id"],
+    "request-body": {
+      "username": "bridge",
+      "body": "This is a new comment."
+    },
+    "exampleResponse": {
+      "articles": [
+        {
+          "comment_id": 19,
+          "body": "This is a new comment.",
+          "article_id": 3,
+          "author": "bridge",
+          "votes": 0,
+          "created_at": 12653472732
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes comment and responds with empty body",
+    "queries": ["comment_id"],
+    "exampleResponse": {
+      "comments": [{}]
     }
   }
 }
