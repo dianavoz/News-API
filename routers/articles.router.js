@@ -10,10 +10,11 @@ const {
   postComment,
 } = require("../controllers/comments.controller");
 
-articlesRouter.get("/", getArticles);
-articlesRouter.get("/:article_id", getArticleById);
-articlesRouter.patch("/:article_id", patchArticle);
-articlesRouter.get("/:article_id/comments", getCommentsByArticle);
-articlesRouter.post("/:article_id/comments", postComment);
+articlesRouter
+  .get("/", getArticles)
+  .get("/:article_id", getArticleById)
+  .patch("/:article_id", patchArticle)
+  .get("/:article_id/comments", getCommentsByArticle)
+  .post("/:article_id/comments", postComment);
 
 module.exports = articlesRouter;
