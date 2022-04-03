@@ -1,18 +1,19 @@
 # Northcoders News API
 
-#### Check the app:
+### Check the app on Heroku:
 https://backend-project-news-api.herokuapp.com/api
 
-<p>The purpose of this API is to access application data programmatically.
+<p>The purpose of this API is to access application data programmatically.</br>
 The intention is to mimic the building of a real world backend service which should provide this information to the front end architecture.</p>
 <p>The users are able to sort, filter the articles based on topics, order by ASC or DESC, comment and vote on them.</p>
     
   <ul>
-  <li>The api is build using TDD process </li>
-  <li>The database is PSQL and will interact with it using node-postgress.</li>
-  <li>There are two databases in this project. One for real looking dev data and another for simpler test data.</li>
-  <li>The server application is built using Express</li>
-  <li> The API implements MVC pattern</li>
+      <li>The api is build using TDD process </li>
+      <li>The database is PSQL and will interact with it using node-postgress.</br>
+          There are two databases in this project. One for real looking dev data and another for simpler test data.
+       </li>
+      <li>The server application is built using Express</li>
+      <li> The API implements MVC pattern</li>
   </ul>
 
 ### Dependencies used in this project
@@ -58,14 +59,15 @@ npm install
   npm test
   ```
 
-  ### Server
+  ### SERVER
   ```
   npm start
   ```
 
  ** You can make requests to the endpoints in the browser or in the applications such as Postman, Insomnia.
 
-  ### Node & Postgres used in this project
+  ### Node.js and Postgres
+  <p>This project was created using:</p>
 
   ```
   node -v | v17.5.0
