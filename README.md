@@ -1,7 +1,7 @@
 # NEWS API
 
 ### CHECK THE API ON HEROKU
-https://backend-project-news-api.herokuapp.com/api
+https://api-backend-nc-news.herokuapp.com/api
 
 <p>The purpose of this API is to access application data programmatically.</br>
 The intention is to mimic the building of a real world backend service which should provide this information to the front end architecture.</p>
