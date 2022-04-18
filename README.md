@@ -1,26 +1,32 @@
-# Northcoders News API
+# NEWS API
 
-### Check the app on Heroku:
+### CHECK THE API ON HEROKU
 https://backend-project-news-api.herokuapp.com/api
 
 <p>The purpose of this API is to access application data programmatically.</br>
 The intention is to mimic the building of a real world backend service which should provide this information to the front end architecture.</p>
 <p>The users are able to sort, filter the articles based on topics, order by ASC or DESC, comment and vote on them.</p>
 
+### TECHNOLOGIES AND DEPENDENCIES
+
 <ul>
-<li>The api is build using TDD process </li>
-<li>The database is PSQL and will interact with it using node-postgress.</br>
-There are two databases in this project. One for real looking dev data and another for simpler test data.
+<li>TDD process using Supertest</li>
+<li>PSQL database and node-postgress to interact with it.</br>
+
+ >  *_You will find a test and a development database in this project.One for real looking dev data and another for simpler test data._*
 </li>
 <li>The server application is built using Express</li>
 <li> The API implements MVC pattern</li>
-</ul>
+<li> Dependencies: </br>
 
-### Dependencies used in this project
 ```
 dotenv, express, pg, pg-format, jest, supertest
 ```
-### TO USE THE PROJECT:
+</li>
+</ul>
+
+
+### TO START THE PROJECT:
 <ol>
     <li>CLONE THE REPO </br>
 
@@ -57,11 +63,17 @@ PGDATABASE=nc_news_test
 </li>
 </ul>
 <li>SEED THE LOCAL DATABASE </br>
+  The package.json file contains the script
 
-```
-npm run setup-dbs
-npm run seed
-```
+  ```
+  "seed": "node ./db/seeds/run-seed.js"
+  ```
+  You can run this script by using:
+
+  ```
+  npm run seed
+  ```
+
 </li>
 
 <li>RUN TESTS </br>
@@ -76,7 +88,7 @@ npm test
 ```
 npm start
 ```
-##### *** You can make requests to the endpoints in the browser or in the applications such as Postman, Insomnia.
+>  **_NOTE:_**  Postman, Insomnia can be used to test REST Clients and make sample API calls.
 </li>
 
 <li>Node.js and Postgres </br>
