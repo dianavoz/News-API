@@ -1,11 +1,11 @@
-const db = require("../db/connection");
+const db = require('../db/connection');
 
 exports.fetchCommentsByArticle = async (article_id) => {
   const comments = await db.query(
     `SELECT comment_id,
       comments.votes,
       comments.created_at,
-      users.name AS author,
+      users.username AS author,
       comments.body
       FROM comments
       JOIN articles ON comments.article_id = articles.article_id
@@ -19,13 +19,13 @@ exports.fetchCommentsByArticle = async (article_id) => {
 
 exports.sendComment = async (article_id, username, body) => {
   if (!body) {
-    return Promise.reject({ status: 400, msg: "Please enter the comment" });
+    return Promise.reject({ status: 400, msg: 'Please enter the comment' });
   }
 
   if (!username) {
     return Promise.reject({
       status: 400,
-      msg: "Please provide a valid username",
+      msg: 'Please provide a valid username',
     });
   }
 
