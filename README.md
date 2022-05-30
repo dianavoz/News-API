@@ -71,6 +71,7 @@ PGDATABASE=nc_news_test
   You can run this script by using:
 
   ```
+  npm run setup-dbs
   npm run seed
   ```
 
